@@ -44,6 +44,11 @@ export class UsersController {
     return user;
   }
 
+  @Post('/signout')
+  signOut(@Session() session: any) {
+    session.userId = null;
+  }
+
   @Get()
   findAllUsers(@Query('email') email: string) {
     return this.userService.find(email);
