@@ -1,3 +1,4 @@
+import { UpdateUserDto } from './dtos/update-user.dto';
 import { CreateUserDto } from './dtos/create-user.dto';
 import {
   Body,
@@ -8,8 +9,13 @@ import {
   Patch,
   Post,
   Query,
+  NotFoundException,
+  UseInterceptors,
+  ClassSerializerInterceptor,
 } from '@nestjs/common';
 import { UsersService } from './users.service';
+import { SerializeInterceptor } from '../interceptors/serialize.interceptor';
+import { UserDto } from './dtos/user.dto';
 
 @Controller('auth')
 export class UsersController {
@@ -24,18 +30,23 @@ export class UsersController {
     return this.userService.find(email);
   }
 
+  @UseInterceptors(new SerializeInterceptor(UserDto))
   @Get('/:id')
-  getUser(@Param() params) {
-    return this.userService.findOne(params.id);
+  async getUser(@Param('id') id: string) {
+    const user = await this.userService.findOne(parseInt(id));
+    if (!user) {
+      throw new NotFoundException(`User ${id} can not found`);
+    }
+    return user;
   }
 
   @Patch('/:id')
-  update(@Param('id') id: number, @Body() body: CreateUserDto) {
-    return this.userService.update(id, body);
+  update(@Param('id') id: string, @Body() body: UpdateUserDto) {
+    return this.userService.update(parseInt(id), body);
   }
 
   @Delete('/:id')
-  remove(@Param() params) {
-    return this.userService.remove(params.id);
+  remove(@Param('id') id: string) {
+    return this.userService.remove(parseInt(id));
   }
 }
