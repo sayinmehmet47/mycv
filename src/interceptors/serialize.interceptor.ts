@@ -10,6 +10,10 @@ import { map } from 'rxjs/operators';
 import { plainToClass, plainToInstance } from 'class-transformer';
 import { UserDto } from '../users/dtos/user.dto';
 
+export function Serialize(dto: any) {
+  return UseInterceptors(new SerializeInterceptor(dto));
+}
+
 export class SerializeInterceptor implements NestInterceptor {
   constructor(private dto: any) {}
 
