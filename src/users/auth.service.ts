@@ -17,7 +17,7 @@ export class AuthService {
     //See if the user already exists
     const users = await this.usersService.find(email);
 
-    if (users) {
+    if (users.length) {
       throw new BadRequestException('User already exists');
     }
 
