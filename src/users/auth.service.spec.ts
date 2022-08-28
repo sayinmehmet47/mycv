@@ -66,9 +66,13 @@ describe('AuthService', () => {
   });
 
   it('throws an error if signed with invalid password', async () => {
-    fakeUsersService.find = () =>
-      Promise.resolve([{ id: 1, email: 'a@asdf.com', password: '1' } as User]);
-    await expect(service.signIn('asdf@asdf.com', 'fds')).rejects.toThrow(
+    // fakeUsersService.find = () =>
+    //   Promise.resolve([{ id: 1, email: 'a@asdf.com', password: '1' } as User]);
+    // await expect(service.signIn('asdf@asdf.com', 'fds')).rejects.toThrow(
+    //   'Incorrect password',
+    // );
+    await service.signup('test4@test.com', 'password');
+    await expect(service.signIn('test4@test.com', 'password2')).rejects.toThrow(
       'Incorrect password',
     );
   });

@@ -19,7 +19,7 @@ import { UserDto } from './dtos/user.dto';
 import { AuthService } from './auth.service';
 import { CurrentUser } from './decorators/current-user.decorator';
 import { User } from './user.entity';
-import { AuthGuard } from 'src/guards/auth.guards';
+import { AuthGuard } from '../guards/auth.guards';
 
 @Controller('auth')
 @Serialize(UserDto)
@@ -63,7 +63,7 @@ export class UsersController {
   async getUser(@Param('id') id: string) {
     const user = await this.userService.findOne(parseInt(id));
     if (!user) {
-      throw new NotFoundException(`User ${id} can not found`);
+      throw new NotFoundException(`User can not found`);
     }
     return user;
   }

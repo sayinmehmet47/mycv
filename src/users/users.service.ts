@@ -1,4 +1,3 @@
-import { CreateUserDto } from './dtos/create-user.dto';
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { User } from './user.entity';
 import { Repository } from 'typeorm';
