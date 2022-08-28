@@ -33,7 +33,12 @@ describe('UserController', () => {
       // update: () => {},
     };
     fakeAuthService = {
-      // signIn: () => {},
+      signIn: (email: string, password: string) => {
+        return Promise.resolve({
+          id: 1,
+          password,
+        } as User);
+      },
       // signup: () => {},
     };
 
@@ -76,6 +81,19 @@ describe('UserController', () => {
       await expect(appController.getUser(id)).rejects.toThrow(
         NotFoundException,
       );
+    });
+
+    it('signIn updates session object and returns user', async () => {
+      const session = { userId: -10 };
+      const user = await appController.signIn(
+        {
+          email: 'deneme@example.com',
+          password: 'password',
+        },
+        session,
+      );
+      expect(user.id).toEqual(1);
+      expect(session.userId).toEqual(1);
     });
   });
 });
