@@ -1,3 +1,4 @@
+import { GetEstimateDto } from './dtos/get-estimate.dto';
 import { Report } from './report.entity';
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
@@ -24,5 +25,25 @@ export class ReportsService {
 
     report.isApproved = body.isApproved;
     return await this.repo.save(report);
+  }
+
+  createEstimate({ make, model, lng, lat, year, milage }: GetEstimateDto) {
+    return (
+      this.repo
+        .createQueryBuilder()
+        .select('AVG(price)', 'price')
+        .where('make=:make', { make: make })
+        .andWhere('model=:model', { model: model })
+
+        //lng withing the +/- 5 degrees
+        .andWhere('lng -:lng BETWEEN -5 AND 5', { lng })
+        .andWhere('lat -:lat BETWEEN -5 AND 5', { lat })
+        .andWhere('year -:year BETWEEN -3 AND 3', { year })
+        .andWhere('isApproved IS TRUE')
+        .orderBy('ABS(milage-:milage)', 'DESC')
+        .setParameters({ milage })
+        .limit(3)
+        .getRawOne()
+    );
   }
 }
