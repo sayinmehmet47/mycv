@@ -28,6 +28,11 @@ export class Report {
   @Column()
   milage: number;
 
+  @Column({
+    default: false,
+  })
+  isApproved: boolean;
+
   @ManyToOne(() => User, (user) => user.reports)
   user: User;
 }
