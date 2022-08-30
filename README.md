@@ -32,6 +32,24 @@
 $ npm install
 ```
 
+## Migrations
+
+to generate our migrations we will write the following command:
+
+```bash
+$ npm run typeorm migration:generate src/migrations/initial-schema
+```
+
+we specified the name of the file initial-schema along with our intention to create a folder called migrations src/migrations/initial-schema
+
+And to run our migration we need to execute :
+
+```bash
+$ npm run typeorm migration:run
+```
+
+(TypeOrm cli will know where to look for migrations thanks to migrations: [..] property that we defined in our data-source.ts file)
+
 ## Running the app
 
 ```bash
