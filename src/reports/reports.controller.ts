@@ -1,5 +1,5 @@
 import { ReportDto } from './dtos/report.dto';
-import { AuthGuard } from 'src/guards/auth.guards';
+import { AuthGuard } from '../guards/auth.guards';
 import {
   Body,
   Controller,
@@ -13,10 +13,10 @@ import {
 import { ReportsService } from './reports.service';
 import { CreateReportDto } from './dtos/create-report.dto';
 import { CurrentUser } from '../users/decorators/current-user.decorator';
-import { User } from 'src/users/user.entity';
-import { Serialize } from 'src/interceptors/serialize.interceptor';
-import { ApproveReportDto } from 'src/reports/dtos/report-approved.dto';
-import { AdminGuard } from 'src/guards/admin.guards';
+import { User } from '../users/user.entity';
+import { Serialize } from '../interceptors/serialize.interceptor';
+import { ApproveReportDto } from '../reports/dtos/report-approved.dto';
+import { AdminGuard } from '../guards/admin.guards';
 import { GetEstimateDto } from './dtos/get-estimate.dto';
 
 @Controller('reports')
